@@ -16,20 +16,42 @@
         ohos:width="match_parent">
 
         <Text
+            ohos:top_margin="24vp"
             ohos:height="match_content"
             ohos:width="match_content"
             ohos:layout_alignment="horizontal_center"
-            ohos:text="Log:"
-            ohos:text_size="32vp"
+            ohos:text="Push Token"
+            ohos:text_size="16vp"
             />
 
         <Text
+            ohos:top_margin="4vp"
             ohos:multiple_lines="true"
             ohos:text_alignment="horizontal_center"
             ohos:start_padding="16vp"
             ohos:end_padding="16vp"
-            ohos:hint="A lot of logs"
-            ohos:id="$+id:t_ability_main_log"
+            ohos:hint="Token"
+            ohos:id="$+id:t_ability_main_push"
+            ohos:height="match_parent"
+            ohos:width="match_parent"/>
+
+        <Text
+            ohos:top_margin="24vp"
+            ohos:height="match_content"
+            ohos:width="match_content"
+            ohos:layout_alignment="horizontal_center"
+            ohos:text="Last Location"
+            ohos:text_size="16vp"
+            />
+
+        <Text
+            ohos:top_margin="4vp"
+            ohos:multiple_lines="true"
+            ohos:text_alignment="horizontal_center"
+            ohos:start_padding="16vp"
+            ohos:end_padding="16vp"
+            ohos:hint="Last fetched Location"
+            ohos:id="$+id:t_ability_main_location"
             ohos:height="match_parent"
             ohos:width="match_parent"/>
 

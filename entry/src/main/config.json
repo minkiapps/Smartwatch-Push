@@ -23,17 +23,6 @@
     },
     "abilities": [
       {
-        "skills": [
-          {
-            "entities": [
-              "entity.system.home"
-            ],
-            "actions": [
-              "action.system.home"
-            ]
-          }
-        ],
-        "orientation": "unspecified",
         "visible": true,
         "name": "com.minkiapps.hos.pushdemo.MainAbility",
         "icon": "$media:icon",
@@ -62,6 +51,22 @@
         "description": "Background Service to receive location",
         "type": "service",
         "backgroundModes": ["location"]
+      },
+      {
+        "skills": [
+          {
+            "entities": [
+              "entity.system.home"
+            ],
+            "actions": [
+              "action.system.home"
+            ]
+          }
+        ],
+        "name": "com.minkiapps.hos.pushdemo.SplashAbility",
+        "icon": "$media:icon",
+        "description": "Splash Screen",
+        "type": "page"
       }
     ],
     "reqPermissions" : [

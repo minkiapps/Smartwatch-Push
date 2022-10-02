@@ -1,12 +1,10 @@
 package com.minkiapps.hos.pushdemo;
 
-import com.huawei.hms.location.harmony.FusedLocationClient;
-import com.huawei.hms.location.harmony.LocationCallback;
-import com.huawei.hms.location.harmony.LocationRequest;
-import com.huawei.hms.location.harmony.LocationResult;
+import com.huawei.hms.location.harmony.*;
 import com.minkiapps.hos.pushdemo.util.LogUtils;
 import com.minkiapps.hos.pushdemo.util.ResUtil;
 import ohos.aafwk.ability.Ability;
+import ohos.aafwk.ability.LocalRemoteObject;
 import ohos.aafwk.content.Intent;
 import ohos.aafwk.content.Operation;
 import ohos.event.intentagent.IntentAgent;
@@ -15,6 +13,7 @@ import ohos.event.intentagent.IntentAgentHelper;
 import ohos.event.intentagent.IntentAgentInfo;
 import ohos.event.notification.NotificationHelper;
 import ohos.event.notification.NotificationRequest;
+import ohos.rpc.IRemoteObject;
 import ohos.rpc.RemoteException;
 
 import java.util.ArrayList;
@@ -31,22 +30,41 @@ public class LocationService extends Ability {
     private static final String ONGOING_TAG = "Ongoing_Overview";
 
     private FusedLocationClient fusedLocationClient;
+    private final LocationRemoteObject locationRemoteObject = new LocationRemoteObject();
+
+    public class LocationRemoteObject extends LocalRemoteObject {
+
+        public LocationService getService() {
+            return LocationService.this;
+        }
+    }
+
+    private LocationCallback callingAbilityLocationCallBack = null;
 
     private final LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             LogUtils.d(TAG, String.format("Location result: %s", locationResult.getLastHWLocation()));
+            if(callingAbilityLocationCallBack != null) {
+                callingAbilityLocationCallBack.onLocationResult(locationResult);
+            }
         }
     };
 
     @Override
     protected void onStart(Intent intent) {
         super.onStart(intent);
+        LogUtils.d(TAG, "On LocationService start");
+
         createNotification("Weather Warning on");
 
         fusedLocationClient = new FusedLocationClient(this);
 
         doLocationRequest();
+    }
+
+    public void setCallingAbilityLocationCallBack(final LocationCallback callingAbilityLocationCallBack) {
+        this.callingAbilityLocationCallBack = callingAbilityLocationCallBack;
     }
 
     public void createNotification(String text) {
@@ -86,7 +104,7 @@ public class LocationService extends Ability {
 
     private void doLocationRequest() {
         final LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(60 * 1000);
+        locationRequest.setInterval(10 * 1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         locationRequest.setNeedAddress(true);
         locationRequest.setMaxWaitTime(10000);
@@ -102,6 +120,7 @@ public class LocationService extends Ability {
     @Override
     protected void onStop() {
         super.onStop();
+        LogUtils.d(TAG, "On Location Service Stop");
         fusedLocationClient.removeLocationUpdates(locationCallback).addOnCompleteListener(harmonyTask -> {
             if(harmonyTask.isSuccessful()) {
                 LogUtils.d(TAG, "Successful remove location updates.");
@@ -116,5 +135,10 @@ public class LocationService extends Ability {
         } catch (RemoteException exception) {
             LogUtils.e(TAG, "A remote exception occurred when publish ongoing card notification.");
         }
+    }
+
+    @Override
+    protected IRemoteObject onConnect(Intent intent) {
+        return locationRemoteObject;
     }
 }
