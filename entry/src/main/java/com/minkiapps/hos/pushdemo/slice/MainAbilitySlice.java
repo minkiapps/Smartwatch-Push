@@ -23,7 +23,7 @@ public class MainAbilitySlice extends AbilitySlice {
 
         findComponentById(ResourceTable.Id_s_ability_main).requestFocus();
 
-        logText = findComponentById(ResourceTable.Id_t_ability_main_log);
+        logText = (Text) findComponentById(ResourceTable.Id_t_ability_main_log);
 
         getGlobalTaskDispatcher(TaskPriority.DEFAULT).asyncDispatch(() -> {
             try {

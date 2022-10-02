@@ -12,22 +12,35 @@ public class MyApplication extends AbilityPackage {
     private static final String TAG = MyApplication.class.getSimpleName();
 
     public static final String APP_ID = "905047232397454016";
-    public static final String PUSH_SLOT_1 = "push_slot_1";
+
+    public static final String PUSH_SLOT_ID = "PUSH_SLOT_ID";
+    public static final String WEATHER_WARNING_SLOT_ID = "WEATHER_WARNING_SLOT_ID";
 
     @Override
     public void onInitialize() {
         super.onInitialize();
 
-        final NotificationSlot slot = new NotificationSlot(PUSH_SLOT_1, "slot_default", NotificationSlot.LEVEL_HIGH); // Create a NotificationSlot object.
-        slot.setDescription("Weather Warning Notification");
-        slot.setEnableVibration(true); // Enable vibration when a notification is received.
-        slot.setEnableLight(true); // Enable the notification light.
-        slot.setLedLightColor(Color.RED.getValue());// Set the color of the notification light.
+        initSlotIds();
+    }
 
+    private void initSlotIds() {
+        final NotificationSlot pushSlot = new NotificationSlot(PUSH_SLOT_ID, "slot_default", NotificationSlot.LEVEL_HIGH); // Create a NotificationSlot object.
+        pushSlot.setDescription("Weather Warning Notification");
+        pushSlot.setEnableVibration(true); // Enable vibration when a notification is received.
+        pushSlot.setEnableLight(true); // Enable the notification light.
+        pushSlot.setLedLightColor(Color.RED.getValue());// Set the color of the notification light.
         try {
-            NotificationHelper.addNotificationSlot(slot);
+            NotificationHelper.addNotificationSlot(pushSlot);
         } catch (RemoteException ex) {
             LogUtils.e(TAG, String.format("Exception occurred during addNotificationSlot invocation, error: %s", ex.getMessage()), ex);
+        }
+
+        final NotificationSlot onGoingSlot = new NotificationSlot(WEATHER_WARNING_SLOT_ID, "weather_card", NotificationSlot.LEVEL_MIN);
+        onGoingSlot.setDescription("Weather Warning On");
+        try {
+            NotificationHelper.addNotificationSlot(onGoingSlot);
+        } catch (RemoteException ex) {
+            LogUtils.e(TAG, String.format("Add ongoing card pushSlot exception, error: %s", ex.getMessage()));
         }
     }
 }

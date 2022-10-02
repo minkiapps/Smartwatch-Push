@@ -33,7 +33,7 @@ public class PushMessageServiceAbility extends HmsMessageService {
         LogUtils.d(TAG, String.format("OnMessageReceived,  data: %s", message.getData()));
 
         try {
-            final NotificationSlot slot = NotificationHelper.getNotificationSlot(MyApplication.PUSH_SLOT_1);
+            final NotificationSlot slot = NotificationHelper.getNotificationSlot(MyApplication.PUSH_SLOT_ID);
             final int notificationId = 1;
             final NotificationRequest request = new NotificationRequest(notificationId);
             request.setSlotId(slot.getId());

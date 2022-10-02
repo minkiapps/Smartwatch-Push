@@ -55,6 +55,13 @@
         "type": "service",
         "visible": false,
         "permissions": []
+      },
+      {
+        "name": "com.minkiapps.hos.pushdemo.LocationService",
+        "icon": "$media:icon",
+        "description": "Background Service to receive location",
+        "type": "service",
+        "backgroundModes": ["location"]
       }
     ],
     "reqPermissions" : [
@@ -63,6 +70,15 @@
       },
       {
         "name": "ohos.permission.INTERNET"
+      },
+      {
+        "name": "ohos.permission.LOCATION"
+      },
+      {
+        "name": "ohos.permission.LOCATION_IN_BACKGROUND"
+      },
+      {
+        "name": "ohos.permission.KEEP_BACKGROUND_RUNNING"
       }
     ]
   }
