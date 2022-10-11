@@ -105,9 +105,9 @@ public class LocationService extends Ability {
     private void doLocationRequest() {
         final LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(10 * 1000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        locationRequest.setNeedAddress(true);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setMaxWaitTime(10000);
+
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback).addOnCompleteListener(harmonyTask -> {
             if (harmonyTask.isSuccessful()) {
                 LogUtils.d(TAG, "Successful requested location.");
