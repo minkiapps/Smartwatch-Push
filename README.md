@@ -2,6 +2,9 @@
 
 How to use HMS-Push Kit on Huawei Smartwatch. Push message can only be received on smartwatch if it is not connected to phone, so basically only if smartwatch has internet through WIFI or eSIm.
 
+### Extension
+Location fetching in sticky Background Service.
+
 #### Caution
 Push Service is not enabled per default, you need to apply for permission to access Push Service. Contact developer support for help.
 
